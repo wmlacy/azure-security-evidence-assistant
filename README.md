@@ -83,12 +83,13 @@ Deferred with reasons recorded: Durable Functions ([ADR-002](docs/adr/ADR-002-du
 | [CONTROL_EVIDENCE_PLAN.md](docs/CONTROL_EVIDENCE_PLAN.md) | The five controls, eight evidence artifacts, adversarial variants |
 | [MILESTONE_0_CHECKLIST.md](docs/MILESTONE_0_CHECKLIST.md) | Design-lock checklist and change-control rule |
 | [adr/](docs/adr/) | Seven architecture decision records |
+| [infra/README.md](infra/README.md) | One-time state-backend bootstrap, session workflow, and what is deliberately not committed |
 
 ## Repository layout
 
 ```text
 ├── docs/            design, threat model, evaluation plan, data statement, ADRs
-├── infra/           Terraform configuration and modules
+├── infra/           Terraform configuration, modules, and bootstrap instructions
 ├── data/
 │   ├── controls/    control catalog (JSON)
 │   └── evidence/    synthetic evidence corpus — authoritative source

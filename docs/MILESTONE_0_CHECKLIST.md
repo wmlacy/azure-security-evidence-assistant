@@ -36,7 +36,7 @@ Milestone 0 prevents design drift once implementation begins. The project does n
 - [ ] Create one project resource group for disposable Azure resources
 - [ ] Configure Azure Cost Management alerts at approximately $5 / $10 / $15
 - [ ] Record deployment-region and Azure AI Search tier choice if service availability drives architecture
-- [ ] Bootstrap the Terraform state resource group, storage account, and container
+- [ ] Bootstrap the Terraform state resource group, storage account, and container (commands in `infra/README.md`)
 - [ ] Install Terraform and confirm `terraform init` succeeds against the remote backend
 - [ ] Verify the teardown command and process before creating billable resources
 

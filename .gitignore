@@ -20,12 +20,17 @@ obj/
 .env
 .env.*
 !.env.example
+*.secret
+*.secrets
 *.pem
 *.key
 
 # Terraform
+# NOTE: .terraform.lock.hcl is intentionally NOT ignored. It pins provider
+# versions and must stay committed -- see infra/README.md.
 .terraform/
-# .terraform.lock.hcl is intentionally committed: it pins provider versions
+terraform.tfstate
+terraform.tfstate.backup
 *.tfstate
 *.tfstate.*
 crash.log

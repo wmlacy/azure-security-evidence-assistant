@@ -31,7 +31,7 @@ Two callers reach the backend, and both present an Entra token:
 
 OIDC is the federation trust that lets GitHub Actions obtain an Azure identity without a stored client secret. It is not itself the protocol used against Blob Storage. Terraform authenticates to the state container with the resulting Entra token in both cases, which is why `use_azuread_auth` is the only backend setting the two paths need in common.
 
-The backend resource group is created once as a bootstrap step, outside the main Terraform configuration, because it must exist before the first `terraform init`.
+The backend resource group is created once as a bootstrap step, outside the main Terraform configuration, because it must exist before the first `terraform init`. The exact commands are recorded in [infra/README.md](../../infra/README.md).
 
 ## Consequences
 
