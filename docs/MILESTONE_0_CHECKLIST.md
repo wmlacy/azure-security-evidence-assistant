@@ -25,9 +25,9 @@ Milestone 0 prevents design drift once implementation begins. The project does n
 
 ## Before M1 implementation starts
 
-- [ ] Confirm Azure subscription available
-- [ ] Confirm Microsoft Foundry/Azure OpenAI model deployment access in the intended region
-- [ ] Confirm GitHub repository location and account
+- [x] Confirm Azure subscription available
+- [x] Confirm Microsoft Foundry/Azure OpenAI model deployment access in the intended region
+- [x] Confirm GitHub repository location and account
 - [x] Create repo skeleton
 - [x] Add the design docs to the repo
 - [x] Create initial control JSON files
@@ -35,9 +35,10 @@ Milestone 0 prevents design drift once implementation begins. The project does n
 - [ ] Choose a Python runtime version supported by the target Azure Functions hosting plan
 - [ ] Create one project resource group for disposable Azure resources
 - [ ] Configure Azure Cost Management alerts at approximately $5 / $10 / $15
-- [ ] Record deployment-region and Azure AI Search tier choice if service availability drives architecture
-- [ ] Bootstrap the Terraform state resource group, storage account, and container (commands in `infra/README.md`)
-- [ ] Install Terraform and confirm `terraform init` succeeds against the remote backend
+- [x] Record deployment region: **southeastasia**. Both required model families are available there on GlobalStandard.
+- [ ] Record the Azure AI Search tier choice
+- [x] Bootstrap the Terraform state resource group, storage account, and container (commands in `infra/README.md`)
+- [x] Install Terraform and confirm `terraform init` succeeds against the remote backend
 - [ ] Verify the teardown command and process before creating billable resources
 
 ## First vertical slice
