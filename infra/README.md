@@ -94,7 +94,31 @@ az storage account blob-service-properties update \
   --enable-versioning true
 ```
 
-### 6. Point Terraform at the backend
+### 6. Create the cost budget
+
+Budgets are a bootstrap concern, not a Terraform concern. If the budget lived in
+the main configuration, `terraform destroy` would delete the cost alerts at
+exactly the moment they are still needed.
+
+`az consumption budget create` cannot attach notification thresholds, so the
+budget is created through the REST API. Thresholds are percentages of the
+budget amount: 33.33%, 66.67%, and 100% of $15 give alerts at roughly $5, $10,
+and $15. A forecast alert is included so the warning arrives before the limit is
+reached rather than after.
+
+```bash
+SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+
+az rest --method put \
+  --url "https://management.azure.com/subscriptions/$SUBSCRIPTION_ID/providers/Microsoft.Consumption/budgets/budget-asea-15usd?api-version=2021-10-01" \
+  --body @budget.json
+```
+
+See `budget.example.json` for the request body. Azure budgets notify; they do not
+enforce a hard cap. Teardown remains the actual cost control, per
+[ADR-006](../docs/adr/ADR-006-disposable-cloud-environment.md).
+
+### 7. Point Terraform at the backend
 
 ```bash
 cp backend.hcl.example backend.hcl

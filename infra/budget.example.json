@@ -1,0 +1,49 @@
+{
+  "properties": {
+    "category": "Cost",
+    "amount": 15,
+    "timeGrain": "Monthly",
+    "timePeriod": {
+      "startDate": "2026-09-01T00:00:00Z",
+      "endDate": "2027-09-01T00:00:00Z"
+    },
+    "notifications": {
+      "Actual_GreaterThan_5_USD": {
+        "enabled": true,
+        "operator": "GreaterThan",
+        "threshold": 33.33,
+        "thresholdType": "Actual",
+        "contactEmails": [
+          "you@example.com"
+        ]
+      },
+      "Actual_GreaterThan_10_USD": {
+        "enabled": true,
+        "operator": "GreaterThan",
+        "threshold": 66.67,
+        "thresholdType": "Actual",
+        "contactEmails": [
+          "you@example.com"
+        ]
+      },
+      "Actual_GreaterThan_15_USD": {
+        "enabled": true,
+        "operator": "GreaterThan",
+        "threshold": 100,
+        "thresholdType": "Actual",
+        "contactEmails": [
+          "you@example.com"
+        ]
+      },
+      "Forecasted_GreaterThan_15_USD": {
+        "enabled": true,
+        "operator": "GreaterThan",
+        "threshold": 100,
+        "thresholdType": "Forecasted",
+        "contactEmails": [
+          "you@example.com"
+        ]
+      }
+    }
+  }
+}
