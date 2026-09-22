@@ -1,0 +1,12 @@
+{
+  "control_id": "CM-6",
+  "title": "Configuration Settings",
+  "source": "NIST SP 800-53 Rev. 5",
+  "requirement_summary": "Security-relevant configuration settings are defined and managed against an approved baseline. This summary is written for this demonstration and is not a verbatim NIST control statement.",
+  "evidence_hints": [
+    "approved configuration baseline defining required security settings",
+    "configuration export showing settings as actually applied",
+    "identification and handling of deviations from the baseline",
+    "change process governing baseline modifications"
+  ]
+}

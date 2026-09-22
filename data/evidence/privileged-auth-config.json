@@ -1,0 +1,120 @@
+{
+  "_synthetic": true,
+  "_synthetic_notice": "Fictional demonstration artifact. This is not a real identity platform export. Tenant, role, and account identifiers are invented.",
+  "document_id": "E-02",
+  "document_name": "privileged-auth-config.json",
+  "evidence_type": "technical_configuration_export",
+  "supports_controls": ["IA-2(1)"],
+  "export_metadata": {
+    "tenant_name": "meridianfreight.example",
+    "tenant_id": "00000000-1111-2222-3333-444444444444",
+    "exported_at": "2026-03-31T09:14:00Z",
+    "exported_by": "svc-compliance-export@meridianfreight.example",
+    "platform": "Meridian Cloud Identity",
+    "export_version": "2.4"
+  },
+  "conditional_access_policies": [
+    {
+      "policy_id": "CA-001",
+      "display_name": "Require MFA for privileged roles",
+      "state": "enabled",
+      "created": "2026-01-20",
+      "last_modified": "2026-02-11",
+      "conditions": {
+        "included_roles": [
+          "Global Administrator",
+          "Security Administrator",
+          "Exchange Administrator",
+          "User Administrator",
+          "Privileged Role Administrator"
+        ],
+        "included_locations": "all",
+        "excluded_users": [
+          "breakglass-01@meridianfreight.example",
+          "breakglass-02@meridianfreight.example"
+        ]
+      },
+      "grant_controls": {
+        "operator": "AND",
+        "built_in_controls": ["mfa"],
+        "authentication_strength": "phishing_resistant_mfa"
+      },
+      "session_controls": {
+        "sign_in_frequency_hours": 4,
+        "persistent_browser": "never"
+      }
+    },
+    {
+      "policy_id": "CA-002",
+      "display_name": "Block legacy authentication",
+      "state": "enabled",
+      "created": "2026-01-20",
+      "conditions": {
+        "client_app_types": ["exchangeActiveSync", "other"]
+      },
+      "grant_controls": {
+        "operator": "OR",
+        "built_in_controls": ["block"]
+      }
+    }
+  ],
+  "privileged_role_assignments": [
+    {
+      "role": "Global Administrator",
+      "assigned_accounts": 2,
+      "accounts_with_mfa_registered": 2,
+      "accounts_using_phishing_resistant_method": 2
+    },
+    {
+      "role": "Security Administrator",
+      "assigned_accounts": 3,
+      "accounts_with_mfa_registered": 3,
+      "accounts_using_phishing_resistant_method": 3
+    },
+    {
+      "role": "Exchange Administrator",
+      "assigned_accounts": 2,
+      "accounts_with_mfa_registered": 2,
+      "accounts_using_phishing_resistant_method": 2
+    },
+    {
+      "role": "User Administrator",
+      "assigned_accounts": 4,
+      "accounts_with_mfa_registered": 4,
+      "accounts_using_phishing_resistant_method": 4
+    },
+    {
+      "role": "Privileged Role Administrator",
+      "assigned_accounts": 1,
+      "accounts_with_mfa_registered": 1,
+      "accounts_using_phishing_resistant_method": 1
+    }
+  ],
+  "authentication_methods_policy": {
+    "sms_enabled_for_privileged": false,
+    "voice_call_enabled_for_privileged": false,
+    "fido2_enabled": true,
+    "authenticator_app_number_matching": "enabled",
+    "temporary_access_pass_enabled": true
+  },
+  "break_glass_accounts": [
+    {
+      "account": "breakglass-01@meridianfreight.example",
+      "excluded_from_conditional_access": true,
+      "sign_in_alerting": "enabled",
+      "last_tested": "2026-03-04"
+    },
+    {
+      "account": "breakglass-02@meridianfreight.example",
+      "excluded_from_conditional_access": true,
+      "sign_in_alerting": "enabled",
+      "last_tested": "2026-03-04"
+    }
+  ],
+  "summary": {
+    "privileged_accounts_total": 12,
+    "privileged_accounts_mfa_enforced": 12,
+    "privileged_accounts_excluded": 2,
+    "exclusion_reason": "documented break-glass accounts per policy MFS-POL-004 section 6.3"
+  }
+}

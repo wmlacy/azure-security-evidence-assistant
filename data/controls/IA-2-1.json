@@ -1,0 +1,12 @@
+{
+  "control_id": "IA-2(1)",
+  "title": "Multi-Factor Authentication to Privileged Accounts",
+  "source": "NIST SP 800-53 Rev. 5",
+  "requirement_summary": "Privileged accounts use multi-factor authentication. This summary is written for this demonstration and is not a verbatim NIST control statement.",
+  "evidence_hints": [
+    "policy requiring MFA for privileged or administrative accounts",
+    "identity platform configuration showing MFA enforcement",
+    "scope of privileged roles covered by the enforcement setting",
+    "any documented exclusions or break-glass accounts"
+  ]
+}

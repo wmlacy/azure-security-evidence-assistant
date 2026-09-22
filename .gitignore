@@ -1,0 +1,49 @@
+# macOS
+.DS_Store
+
+# Working documents — source DOCX pack, not part of the published repo
+_working-docs/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Azure Functions local
+local.settings.json
+bin/
+obj/
+
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Terraform
+.terraform/
+# .terraform.lock.hcl is intentionally committed: it pins provider versions
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+!example.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+tfplan
+*.tfplan
+
+# Logs
+*.log
+
+# Terraform backend config (names only, but kept out of the repo)
+backend.hcl

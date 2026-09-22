@@ -1,0 +1,8 @@
+# Copy to backend.hcl and fill in, then:
+#   terraform init -backend-config=backend.hcl
+# backend.hcl is gitignored. These are resource names, not secrets.
+
+resource_group_name  = ""
+storage_account_name = ""
+container_name       = "tfstate"
+key                  = "azure-security-evidence-assistant.tfstate"
