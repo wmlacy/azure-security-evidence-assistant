@@ -110,7 +110,7 @@ Teardown: the project resource group is deleted when the session is complete.
 |---|---|---|
 | Azure Functions | Ingestion, mapping API, review API | Include |
 | Microsoft Foundry / Azure OpenAI model endpoints | Embeddings and structured advisory mapping | Include |
-| Azure AI Search | Hybrid/vector retrieval over synthetic evidence | Include as a disposable runtime resource |
+| Azure AI Search | Hybrid/vector retrieval over synthetic evidence | Include; Free tier per ADR-003 |
 | Blob Storage | Optional production-style ingestion extension | Deferred |
 | Table Storage | Draft mappings, reviews, audit records | Include |
 | Managed Identity | Service-to-service authentication | Include |
@@ -129,7 +129,7 @@ Teardown: the project resource group is deleted when the session is complete.
 
 Target total spend is no more than $15 USD. Cost Management alerts are configured at approximately $5, $10, and $15, while recognizing that Azure budgets notify rather than enforce a hard spending stop.
 
-At deployment time the current Azure AI Search tier and region options are verified. The Free tier is useful for basic experiments but does not support managed-identity authentication. A short-lived tier supporting the required identity controls is preferred for the final demonstration, then torn down promptly. A Serverless Developer tier may suit bursty use where available, but it is preview functionality and must be re-verified before use.
+Azure AI Search runs on the Free tier for development and for the portfolio deployment. The Free tier was verified to support system-assigned managed identity, Microsoft Entra RBAC with API key authentication disabled, and the vector retrieval path the design requires, at no recurring cost. Basic is a production consideration only, for workloads requiring increased capacity, SLA coverage, or enterprise scale; it is not required by this architecture. Moving from Free to a billable tier is a recreation rather than an in-place tier change, so it forces resource replacement and an index rebuild. See ADR-003 for the validation evidence and the accepted Free-tier limitations.
 
 ## 8. Core data model
 

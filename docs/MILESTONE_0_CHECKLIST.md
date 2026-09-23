@@ -33,10 +33,10 @@ Milestone 0 prevents design drift once implementation begins. The project does n
 - [x] Create initial control JSON files
 - [x] Create the first two evidence fixtures for the vertical slice
 - [x] Choose a Python runtime version supported by the target Azure Functions hosting plan: **3.12**
-- [ ] Create one project resource group for disposable Azure resources
+- [x] Create one project resource group for disposable Azure resources: `rg-asea-app`
 - [x] Configure Azure Cost Management alerts at approximately $5 / $10 / $15 (commands in `infra/README.md`)
 - [x] Record deployment region: **southeastasia**. Both required model families are available there on GlobalStandard.
-- [ ] Record the Azure AI Search tier choice
+- [x] Record the Azure AI Search tier choice: **Free**, validated against live Azure resources (see ADR-003)
 - [x] Bootstrap the Terraform state resource group, storage account, and container (commands in `infra/README.md`)
 - [x] Install Terraform and confirm `terraform init` succeeds against the remote backend
 - [ ] Verify the teardown command and process before creating billable resources

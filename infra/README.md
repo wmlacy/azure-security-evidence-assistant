@@ -8,8 +8,28 @@ Two resource groups exist, and the distinction matters:
 
 | Resource group | Lifetime | Contents |
 |---|---|---|
-| State resource group | Permanent | Terraform state storage account and container |
-| Project resource group | Disposable | Every runtime resource; destroyed after each session |
+| `rg-asea-tfstate` | Permanent | Terraform state storage account and container, and nothing else |
+| `rg-asea-app` | Disposable | Every application and runtime resource; destroyed after each session |
+
+```text
+rg-asea-tfstate
+    └── Storage Account
+        └── Terraform state only
+
+rg-asea-app
+    ├── Azure AI Search
+    ├── Azure OpenAI
+    ├── Functions
+    ├── Storage
+    ├── Key Vault
+    └── Application resources
+```
+
+The state resource group is dedicated to Terraform backend storage. No application
+resource belongs in it. A runtime resource placed there survives `terraform destroy`,
+which breaks the cost control in
+[ADR-006](../docs/adr/ADR-006-disposable-cloud-environment.md) and leaves the durable
+group holding things nothing manages.
 
 ---
 
