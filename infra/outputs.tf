@@ -1,6 +1,21 @@
-# Outputs consumed by the seed and demo steps: endpoints and resource names
-# only. No keys or connection secrets are output; access is keyless per
-# docs/adr/ADR-004-keyless-auth.md.
+# Outputs consumed by the seed and demo steps.
+#
+# Standing rule: no output exposes a key, connection string, shared access
+# signature, or admin credential. Every value below is an endpoint, a resource
+# name, or an identifier that is not usable for authentication on its own.
+#
+# None of the current outputs are therefore marked sensitive. Marking a
+# non-secret as sensitive would hide values the seeding script needs while
+# protecting nothing, and would make a genuinely sensitive output harder to
+# notice later.
+#
+# If a future output ever carries provider-returned credential material, it
+# must be marked `sensitive = true`. That suppresses CLI and CI log display; it
+# does not remove the value from state. State-at-rest is addressed separately
+# by the backend hardening in docs/adr/ADR-007-terraform-state-backend.md.
+#
+# See docs/adr/ADR-004-keyless-auth.md, "Terraform state security
+# consideration", for why these are two distinct risks.
 
 output "resource_group_name" {
   description = "The disposable resource group. This is what teardown targets."

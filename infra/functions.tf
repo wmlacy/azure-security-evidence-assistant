@@ -34,6 +34,11 @@ resource "azurerm_function_app_flex_consumption" "main" {
 
   https_only = true
 
+  # Removes the SCM basic-authentication publishing credential, which is an
+  # account-scoped username and password that bypasses Entra entirely.
+  # Deployment uses the managed identity path instead.
+  webdeploy_publish_basic_authentication_enabled = false
+
   identity {
     type = "SystemAssigned"
   }
@@ -51,12 +56,28 @@ resource "azurerm_function_app_flex_consumption" "main" {
     AZURE_OPENAI_EMBEDDING_DEPLOYMENT = azurerm_cognitive_deployment.embedding.name
     AZURE_OPENAI_MAPPING_DEPLOYMENT   = azurerm_cognitive_deployment.mapping.name
     AZURE_STORAGE_ACCOUNT_NAME        = azurerm_storage_account.app.name
-    AZURE_TABLE_MAPPINGS              = azurerm_storage_table.mappings.name
-    AZURE_TABLE_AUDIT                 = azurerm_storage_table.reviewaudit.name
-    RETRIEVAL_TOP_K                   = "5"
-    PROMPT_VERSION                    = "v1"
-    SCHEMA_VERSION                    = "v1"
+
+    # Application Insights ingestion authenticates with the Function App's
+    # managed identity rather than the instrumentation key. Required because
+    # local authentication is disabled on the component.
+    APPLICATIONINSIGHTS_AUTHENTICATION_STRING = "Authorization=AAD"
+    AZURE_TABLE_MAPPINGS                      = azurerm_storage_table.mappings.name
+    AZURE_TABLE_AUDIT                         = azurerm_storage_table.reviewaudit.name
+    RETRIEVAL_TOP_K                           = "5"
+    PROMPT_VERSION                            = "v1"
+    SCHEMA_VERSION                            = "v1"
   }
 
   tags = var.tags
+
+  lifecycle {
+    postcondition {
+      condition     = self.storage_authentication_type == "SystemAssignedIdentity"
+      error_message = "ADR-004 violation: the Function App host is not using managed identity for its storage connection."
+    }
+    postcondition {
+      condition     = self.webdeploy_publish_basic_authentication_enabled == false
+      error_message = "ADR-004 violation: SCM basic authentication publishing credentials are enabled."
+    }
+  }
 }

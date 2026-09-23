@@ -25,6 +25,13 @@ resource "azurerm_cognitive_account" "openai" {
   }
 
   tags = var.tags
+
+  lifecycle {
+    postcondition {
+      condition     = self.local_auth_enabled == false
+      error_message = "ADR-004 violation: API key authentication is enabled on the Azure OpenAI account."
+    }
+  }
 }
 
 resource "azurerm_cognitive_deployment" "embedding" {

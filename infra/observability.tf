@@ -21,5 +21,20 @@ resource "azurerm_application_insights" "main" {
   location            = azurerm_resource_group.project.location
   workspace_id        = azurerm_log_analytics_workspace.main.id
   application_type    = "web"
-  tags                = var.tags
+
+  # Disables instrumentation-key ingestion. With this set, the instrumentation
+  # key inside the connection string no longer authenticates anything: telemetry
+  # must be submitted with a Microsoft Entra token by a principal holding
+  # Monitoring Metrics Publisher. The connection string degrades from a
+  # credential to an endpoint identifier.
+  local_authentication_enabled = false
+
+  tags = var.tags
+
+  lifecycle {
+    postcondition {
+      condition     = self.local_authentication_enabled == false
+      error_message = "ADR-004 violation: instrumentation key ingestion is enabled on Application Insights."
+    }
+  }
 }

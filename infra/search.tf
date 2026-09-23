@@ -21,4 +21,13 @@ resource "azurerm_search_service" "main" {
   }
 
   tags = var.tags
+
+  # Fails the apply if key authentication is ever re-enabled, whether by an
+  # edit here or by drift introduced outside Terraform.
+  lifecycle {
+    postcondition {
+      condition     = self.local_authentication_enabled == false
+      error_message = "ADR-004 violation: API key authentication is enabled on the search service."
+    }
+  }
 }

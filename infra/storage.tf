@@ -17,6 +17,13 @@ resource "azurerm_storage_account" "app" {
   allow_nested_items_to_be_public = false
 
   tags = var.tags
+
+  lifecycle {
+    postcondition {
+      condition     = self.shared_access_key_enabled == false
+      error_message = "ADR-004 violation: shared key authentication is enabled on the application storage account."
+    }
+  }
 }
 
 # Deployment package container for the Flex Consumption Function App.
