@@ -34,7 +34,16 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    # Azure creates resources in the project group that Terraform does not
+    # manage, such as the "Application Insights Smart Detection" action group.
+    # With the default of true, destroy removes everything else and then fails
+    # on the non-empty resource group, leaving teardown incomplete. The whole
+    # group is disposable per ADR-006, so anything left in it goes with it.
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
 
   # Use Microsoft Entra for Storage data plane operations (containers, tables)
   # instead of an account key. Required here rather than optional: the storage

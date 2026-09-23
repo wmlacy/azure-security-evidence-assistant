@@ -39,7 +39,17 @@ Milestone 0 prevents design drift once implementation begins. The project does n
 - [x] Record the Azure AI Search tier choice: **Free**, validated against live Azure resources (see ADR-003)
 - [x] Bootstrap the Terraform state resource group, storage account, and container (commands in `infra/README.md`)
 - [x] Install Terraform and confirm `terraform init` succeeds against the remote backend
-- [ ] Verify the teardown command and process before creating billable resources
+- [x] Verify the teardown command and process before creating billable resources
+
+## Teardown verification
+
+Verified 2026-09-23 with a full apply and destroy cycle.
+
+`terraform destroy` removed 22 resources, including the project resource group itself, which Terraform manages. The state resource group and its storage account were untouched, and the state file remained readable afterward while tracking zero resources.
+
+This is the property ADR-007 depends on: state outlives the runtime. The separation holds because the state resource group is not present in the configuration, so destroy has no path to it. Teardown is expressed as a command scoped to what Terraform manages, never as an instruction to delete resource groups by hand.
+
+Recreating the environment produces new resource names, because the random suffix is regenerated. That is deliberate: it avoids the name reservation that Azure applies for a period after a search service or storage account is deleted.
 
 ## First vertical slice
 
