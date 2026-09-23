@@ -30,16 +30,28 @@ resource "azurerm_storage_account" "app" {
 resource "azurerm_storage_container" "deployments" {
   name               = "deployments"
   storage_account_id = azurerm_storage_account.app.id
+
+  # With shared key access disabled, creating this container is a data plane
+  # call authorized by Entra RBAC. The operator's role assignment must exist
+  # first or the call is refused.
+  depends_on = [azurerm_role_assignment.operator_blob]
 }
 
-# Draft and accepted mappings. See docs/DESIGN.md section 8.
-resource "azurerm_storage_table" "mappings" {
-  name                 = "mappings"
-  storage_account_name = azurerm_storage_account.app.name
-}
-
-# Immutable-by-convention record of reviewer transitions.
-resource "azurerm_storage_table" "reviewaudit" {
-  name                 = "reviewaudit"
-  storage_account_name = azurerm_storage_account.app.name
-}
+# Table Storage tables are deliberately NOT managed by Terraform.
+#
+# The azurerm provider's storage table resource reads and writes table ACLs
+# through the Storage data plane using shared key authentication. That call is
+# refused by this account, which sets shared_access_key_enabled = false, and the
+# provider has no Entra fallback for it. Every plan would fail on the ACL read.
+#
+# Two tables are required, "mappings" and "reviewaudit" (docs/DESIGN.md
+# section 8). They are created idempotently by the ingestion and review code
+# using DefaultAzureCredential, which is the same pattern already used for the
+# Azure AI Search index: both are data plane objects, created by the component
+# that owns them rather than by infrastructure code.
+#
+# Their names are supplied to the Function App through app settings, and the
+# role assignments permitting their creation and use are in rbac.tf.
+#
+# Weakening the storage account to satisfy the provider was rejected. The
+# keyless posture in ADR-004 is a requirement, not a preference.

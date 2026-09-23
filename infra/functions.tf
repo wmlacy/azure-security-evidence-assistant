@@ -61,8 +61,8 @@ resource "azurerm_function_app_flex_consumption" "main" {
     # managed identity rather than the instrumentation key. Required because
     # local authentication is disabled on the component.
     APPLICATIONINSIGHTS_AUTHENTICATION_STRING = "Authorization=AAD"
-    AZURE_TABLE_MAPPINGS                      = azurerm_storage_table.mappings.name
-    AZURE_TABLE_AUDIT                         = azurerm_storage_table.reviewaudit.name
+    AZURE_TABLE_MAPPINGS                      = var.table_mappings
+    AZURE_TABLE_AUDIT                         = var.table_audit
     RETRIEVAL_TOP_K                           = "5"
     PROMPT_VERSION                            = "v1"
     SCHEMA_VERSION                            = "v1"

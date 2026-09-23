@@ -35,4 +35,10 @@ terraform {
 
 provider "azurerm" {
   features {}
+
+  # Use Microsoft Entra for Storage data plane operations (containers, tables)
+  # instead of an account key. Required here rather than optional: the storage
+  # account sets shared_access_key_enabled = false, so key-based data plane
+  # calls are refused by Azure and the provider cannot fall back to them.
+  storage_use_azuread = true
 }

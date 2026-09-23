@@ -85,3 +85,15 @@ variable "tags" {
     data      = "synthetic-only"
   }
 }
+
+variable "table_mappings" {
+  description = "Table holding draft and accepted mappings. Created by application code, not Terraform; see storage.tf."
+  type        = string
+  default     = "mappings"
+}
+
+variable "table_audit" {
+  description = "Table holding reviewer transition audit records. Created by application code, not Terraform; see storage.tf."
+  type        = string
+  default     = "reviewaudit"
+}
